@@ -1,0 +1,11 @@
+{
+  "name": "chetwynd-medical",
+  "private": true,
+  "description": "Public website for Chetwynd Medical Staff in Chetwynd, BC.",
+  "scripts": {
+    "build": "node scripts/build.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
