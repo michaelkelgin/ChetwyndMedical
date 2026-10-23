@@ -5,6 +5,7 @@ const { news, events, board, support, roles, partners, photos } = require("../sr
 const root = path.join(__dirname, "..");
 const dist = path.join(root, "dist");
 const SITE = "https://chetwyndmedical.ca";
+const CONTACT_EMAIL = "Admin@chetwyndmedical.ca";
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const TAG_COLORS = {
   MSA: "#0f5f75",
@@ -121,16 +122,24 @@ function renderNav(path) {
     </nav>`;
 }
 
+function emailLink() {
+  return `<a href="mailto:${CONTACT_EMAIL}">${esc(CONTACT_EMAIL)}</a>`;
+}
+
+function logoMarkup(priority) {
+  const extra = priority ? ' fetchpriority="high"' : "";
+  return `<picture>
+      <source media="(max-width: 719px)" srcset="/assets/images/logo-360.webp" type="image/webp">
+      <img src="/assets/images/logo-600.webp" width="600" height="316" alt="Chetwynd Medical Staff Association"${extra}>
+    </picture>`;
+}
+
 function header(path) {
   return `<a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap header-bar">
     <a class="brand" href="/">
-      <img src="/assets/mark.svg" alt="" width="48" height="48">
-      <span>
-        <span class="brand-name">Chetwynd</span>
-        <span class="brand-sub">Medical Staff Association</span>
-      </span>
+      ${logoMarkup(true)}
     </a>
     <div class="header-actions">
       <a class="sign-in-compact" href="/login/">Sign in</a>
@@ -160,12 +169,9 @@ function footer() {
       <div class="footer-grid">
         <div>
           <a class="brand" href="/">
-            <img src="/assets/mark.svg" alt="" width="48" height="48">
-            <span>
-              <span class="brand-name">Chetwynd</span>
-              <span class="brand-sub">Medical Staff Association</span>
-            </span>
+            ${logoMarkup(false)}
           </a>
+          <p class="footer-email">${emailLink()}</p>
           <div class="footer-tools">
             <a href="/contact/">Contact us</a>
             <a href="/search/">Search site</a>
@@ -223,7 +229,7 @@ function layout(opts) {
     ? "Chetwynd Medical Staff Association | Home"
     : opts.title + " | Chetwynd Medical Staff Association";
   const canonical = SITE + (path === "/" ? "/" : path);
-  const image = SITE + "/assets/images/hero-hills.jpg";
+  const image = SITE + "/assets/images/og.jpg";
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -232,13 +238,18 @@ function layout(opts) {
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(description)}">
   <link rel="canonical" href="${canonical}">
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/favicon.ico" sizes="any">
+  <link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="/assets/favicon-16.png" type="image/png" sizes="16x16">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
   <meta name="theme-color" content="#005695">
   <meta property="og:title" content="${esc(title)}">
   <meta property="og:description" content="${esc(description)}">
   <meta property="og:type" content="website">
   <meta property="og:url" content="${canonical}">
   <meta property="og:image" content="${image}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Chetwynd Medical Staff Association">
   <link rel="stylesheet" href="/assets/styles.css">
   <script type="application/ld+json">
@@ -247,6 +258,8 @@ function layout(opts) {
     "@type": "Organization",
     name: "Chetwynd Medical Staff Association",
     url: SITE + "/",
+    email: CONTACT_EMAIL,
+    logo: SITE + "/assets/images/logo-hq.webp",
     areaServed: "Chetwynd, British Columbia, Canada",
   })}
   </script>
@@ -327,7 +340,8 @@ function newsSidebar(exceptSlug) {
 function contactCard() {
   return `<div class="side-card">
     <h2>Contact</h2>
-    <p>Association email and phone are not posted yet. [placeholder]</p>
+    <p>Email ${emailLink()}</p>
+    <p>Phone and mailing address: [placeholder]</p>
     <a class="btn" href="/contact/">Contact form</a>
   </div>`;
 }
@@ -529,7 +543,7 @@ add({
       }).join("")}
     </div>
     <ul class="news-list">${news.map(newsCard).join("")}</ul>
-    <p class="form-note">For more information, use the <a href="/contact/">contact form</a>. Association email is still [placeholder].</p>`,
+    <p class="form-note">For more information, write to ${emailLink()} or use the <a href="/contact/">contact form</a>.</p>`,
 });
 
 news.forEach(function (item) {
@@ -681,11 +695,11 @@ add({
 add({
   path: "/contact/",
   title: "Contact",
-  description: "Contact the Chetwynd Medical Staff Association. Direct email, phone, and mailing address are still placeholders. Hospital contact details are Northern Health's published numbers.",
+  description: "Contact the Chetwynd Medical Staff Association at Admin@chetwyndmedical.ca. Phone and mailing address are still placeholders. Hospital details are Northern Health's published numbers.",
   hero: heroPage("Contact"),
   sidebar: `<div class="side-card">
       <h2>Association</h2>
-      <p>Email: [placeholder]</p>
+      <p>Email: ${emailLink()}</p>
       <p>Phone: [placeholder]</p>
       <p>Mailing address: [placeholder]</p>
     </div>
@@ -696,9 +710,9 @@ add({
       <p>Emergency department: 24 hours</p>
       <p><a href="https://www.northernhealth.ca/find-a-facility/hospitals/chetwynd-hospital-and-health-centre">Facility page</a></p>
     </div>`,
-  plain: "Contact form placeholder email phone mailing address Chetwynd Hospital and Health Centre 5500 Hospital Road 250-788-2236",
+  plain: "Contact Admin@chetwyndmedical.ca form phone mailing address placeholder Chetwynd Hospital and Health Centre 5500 Hospital Road 250-788-2236",
   main: `<div class="prose">
-      <p>The form is for general questions to the association. A star marks a required field. Please allow a few business days for a reply once someone is actually monitoring the inbox. [placeholder] That monitoring is not confirmed yet.</p>
+      <p>Write to ${emailLink()}, or use the form for a general question. A star marks a required field. Phone and mailing address for the association are still [placeholder].</p>
     </div>
     <form class="stack-form" name="contact" method="POST" action="/thank-you/" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="contact">
@@ -769,7 +783,7 @@ add({
   solo: true,
   plain: "Unsplash image credits Lato font SIL Open Font License",
   main: `<div class="prose">
-      <p>Where a comparable site would use its own event photos and logo, this draft uses an original mark and generic photographs. They do not show Chetwynd physicians, the Chetwynd Hospital and Health Centre, or local events.</p>
+      <p>The crest in the header and footer is the Chetwynd Medical Staff Association logo. A high-resolution copy is kept with the site files. The other photographs are generic stock images. They do not show Chetwynd physicians, the Chetwynd Hospital and Health Centre, or local events.</p>
       <p>Photographs are from Unsplash and are used under the <a href="https://unsplash.com/license">Unsplash License</a>.</p>
       <ul>${photos.map(function (photo) {
         return `<li>${esc(photo.caption)}. <a href="${esc(photo.href)}">Source image</a>.</li>`;
@@ -832,12 +846,17 @@ function check() {
   const known = new Set(pages.map(function (page) { return page.path; }));
   known.add("/");
   const banned = [/prince george/i, /pgmedstaff/i, /feuhnbc/i, /uhnbc/i, /lheidli/i, /oneaftereight/i, /richard the brave/i];
-  const email = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i;
+  const email = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi;
   pages.forEach(function (page) {
     banned.forEach(function (pattern) {
       if (pattern.test(page.html)) errors.push(page.path + " matched " + pattern);
     });
-    if (email.test(page.html)) errors.push(page.path + " contains an email address");
+    const found = page.html.match(email) || [];
+    found.forEach(function (addr) {
+      if (addr.toLowerCase() !== CONTACT_EMAIL.toLowerCase()) {
+        errors.push(page.path + " has unexpected email " + addr);
+      }
+    });
     const phones = page.html.match(/\d{3}-\d{3}-\d{4}/g) || [];
     phones.forEach(function (phone) {
       if (phone !== "250-788-2236") errors.push(page.path + " has unexpected phone " + phone);

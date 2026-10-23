@@ -2,7 +2,7 @@
 
 Public website for the Chetwynd Medical Staff Association (`chetwyndmedical.ca`).
 
-It is a static multi-page site with the same kind of sections as a facility medical staff association: home, about, news, awards, partners, calendar, contribute, contact, and a member sign-in placeholder. Copy is original. Facts that are not confirmed are marked `[placeholder]`. Photographs are generic Unsplash images, not local staff photos.
+It is a static multi-page site with the same kind of sections as a facility medical staff association: home, about, news, awards, partners, calendar, contribute, contact, and a member sign-in placeholder. Copy is original. Facts that are not confirmed are marked `[placeholder]`. The header and footer use the association's own crest. Other photographs are generic Unsplash images, not local staff photos. The public contact email is Admin@chetwyndmedical.ca.
 
 ## Develop
 
@@ -35,4 +35,4 @@ python3 -m http.server 4173 --directory dist
 
 ## Placeholders still open
 
-Association email, phone, and mailing address; officer names; constitution; dues; peer support; onboarding steps; cultural-safety dates; local Division of Family Practice; which partnerships are active; the real meeting calendar; and the association's own land acknowledgement.
+Association phone and mailing address; officer names; constitution; dues; peer support; onboarding steps; cultural-safety dates; local Division of Family Practice; which partnerships are active; the real meeting calendar; and the association's own land acknowledgement.
