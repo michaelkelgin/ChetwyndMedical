@@ -31,6 +31,7 @@ const nav = [
   { label: "Calendar", href: "/calendar/" },
   { label: "Contribute", href: "/contribute/" },
   { label: "Contact", href: "/contact/" },
+  { label: "Members", href: "/members/" },
 ];
 
 const footerLeft = [
@@ -183,7 +184,7 @@ function footer() {
         </div>
         <div>
           <h2 class="footer-label">Member pages</h2>
-          <ul class="footer-list"><li><a href="/login/">Member sign in</a></li></ul>
+          <ul class="footer-list"><li><a href="/login/">Member sign in</a></li><li><a href="/members/">Members area</a></li></ul>
         </div>
       </div>
       <div class="legal">
@@ -742,19 +743,17 @@ add({
 add({
   path: "/login/",
   title: "Member Sign In",
-  description: "Member sign-in for the Chetwynd Medical Staff Association is not active on this first version of the site.",
+  description: "Passwordless sign-in for allow-listed Chetwynd Medical Staff Association members.",
   hero: heroPage("Member Sign In"),
   solo: true,
-  plain: "Member sign in is not active placeholder password not collected",
+  plain: "Member sign in magic link email allow list",
   main: `<div class="narrow">
-    <div class="banner"><p>Member sign-in is not turned on yet. [placeholder] A private member area, including any password reset, will be added in a later version. Do not send a password through the contact form.</p></div>
-    <form class="stack-form" action="/login/" method="get">
+    <p>Members sign in with a one-time link sent to an allow-listed email address. There is no password. The link expires in 15 minutes and works once.</p>
+    <form class="stack-form" id="login-form" method="POST" action="/api/auth/request">
       <label for="login-email">Email address</label>
-      <input id="login-email" name="email" type="email" autocomplete="username" disabled>
-      <label for="login-password">Password</label>
-      <input id="login-password" name="password" type="password" autocomplete="current-password" disabled>
-      <p><button class="btn" type="submit" disabled>Sign in</button></p>
-      <p class="form-note">Forgot-password mail is not available while sign-in is off.</p>
+      <input id="login-email" name="email" type="email" autocomplete="email" required>
+      <p><button class="btn" type="submit">Email me a sign-in link</button></p>
+      <p class="form-note">If this server has no email provider configured, the next screen shows the link instead of sending it. Do not upload or type patient information here.</p>
     </form>
   </div>`,
 });
@@ -841,6 +840,27 @@ function normalizeLink(href) {
   return value;
 }
 
+function loadPublicPages() {
+  const dir = path.join(root, "content", "public");
+  if (!fs.existsSync(dir)) return;
+  for (const name of fs.readdirSync(dir)) {
+    if (!name.endsWith(".md") || name.toLowerCase() === "readme.md") continue;
+    const raw = fs.readFileSync(path.join(dir, name), "utf8");
+    const slug = name.replace(/\.md$/, "");
+    const title = (raw.match(/^#\s+(.+)$/m) || [, slug])[1];
+    add({
+      path: `/pages/${slug}/`,
+      title,
+      description: title,
+      eyebrow: "Pages",
+      hero: heroPage(title, "Pages"),
+      solo: true,
+      plain: raw,
+      main: `<article class="prose"><pre>${raw.replace(/[&<>]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[char]))}</pre></article>`,
+    });
+  }
+}
+
 function check() {
   const errors = [];
   const known = new Set(pages.map(function (page) { return page.path; }));
@@ -865,6 +885,7 @@ function check() {
     hrefs.forEach(function (raw) {
       const href = raw.slice(6, -1);
       const local = normalizeLink(href);
+      if (local && (local.startsWith("/members") || local.startsWith("/api"))) return;
       if (local && !known.has(local)) errors.push(page.path + " links to missing " + href);
     });
   });
@@ -880,8 +901,10 @@ copyDir(path.join(root, "src/assets"), path.join(dist, "assets"));
 copyDir(path.join(root, "src/fonts"), path.join(dist, "assets/fonts"));
 copyDir(path.join(root, "src/images"), path.join(dist, "assets/images"));
 fs.copyFileSync(path.join(root, "src/styles.css"), path.join(dist, "assets/styles.css"));
+fs.copyFileSync(path.join(root, "src/members.css"), path.join(dist, "assets/members.css"));
 fs.copyFileSync(path.join(root, "src/site.js"), path.join(dist, "assets/site.js"));
 
+loadPublicPages();
 check();
 pages.forEach(function (page) { writePage(page.path, page.html); });
 fs.writeFileSync(path.join(dist, "404.html"), notFound);

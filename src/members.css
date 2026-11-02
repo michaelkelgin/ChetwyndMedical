@@ -1,0 +1,45 @@
+.members-main { padding: 1.5rem 0 3rem; }
+.members-main h1 { margin-top: 0.2rem; }
+.member-who { color: var(--muted); }
+.member-nav { display: flex; flex-wrap: wrap; gap: 0.35rem 0.9rem; }
+.member-nav a { font-weight: 700; }
+.header-bar form { margin: 0; }
+.status {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: #e7eef5;
+  color: var(--blue);
+}
+.status-live { background: #e5f6ee; color: #0f6b45; }
+.status-awaiting_approval { background: #fff4d6; color: #8a5a00; }
+.status-denied, .status-cancelled, .status-reversed { background: #fde8e8; color: #8d1d1d; }
+.change-list, .chat-log { display: grid; gap: 0.8rem; }
+.change-card, .chat-panel, .preview-panel, .action-bar {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+.change-card h2, .chat-panel h2, .preview-panel h2 { margin: 0.35rem 0; }
+.button-row, .action-bar { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.action-bar form, .button-row form, .revision-list form { margin: 0; }
+.chat-item { background: #fff; border-radius: 6px; padding: 0.7rem 0.8rem; }
+.chat-user { border-left: 4px solid var(--blue); }
+.chat-assistant { border-left: 4px solid var(--purple); }
+.revision-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
+.revision-list li { display: flex; justify-content: space-between; gap: 0.75rem; align-items: center; background: #fff; border-radius: 6px; padding: 0.55rem 0.7rem; }
+.preview-frame { width: 100%; min-height: 180px; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
+.preview-doc { padding: 0.9rem 1rem; }
+.doc-list { list-style: none; padding: 0; }
+.doc-list li { padding: 0.45rem 0; border-bottom: 1px solid var(--line); }
+@media (max-width: 720px) {
+  .member-nav { display: none; }
+  .revision-list li { flex-direction: column; align-items: flex-start; }
+  .header-bar .brand img { width: min(168px, 52vw); }
+}
