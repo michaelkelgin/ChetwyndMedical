@@ -3,9 +3,20 @@
   "private": true,
   "description": "Public website for Chetwynd Medical Staff in Chetwynd, BC.",
   "scripts": {
-    "build": "node scripts/build.js"
+    "build": "node scripts/build.js",
+    "dev": "npm run build && node scripts/dev-server.mjs",
+    "test": "node --test tests/members.test.mjs",
+    "db:generate": "drizzle-kit generate --config drizzle.config.mjs"
   },
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^11.1.7",
+    "@netlify/database": "^2.0.1",
+    "drizzle-orm": "^1.0.0-beta.22"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^1.0.0-beta.22"
   }
 }
