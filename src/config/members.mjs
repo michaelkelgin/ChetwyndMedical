@@ -5,15 +5,15 @@
  * (two approvers) rather than changing access by hand on the server.
  */
 export const MEMBERS = [
-  { email: "alvin443@yahoo.com", role: "member" },
-  { email: "drswanson@nnwc.ca", role: "member" },
-  { email: "bron.finkelstein@gmail.com", role: "member" },
-  { email: "Landon.sayler@dal.ca", role: "chief_of_staff" },
-  { email: "rafalbanas7@gmail.com", role: "executive" },
-  { email: "odunalakaye@gmail.com", role: "executive" },
-  { email: "onums82@gmail.com", role: "member" },
+  { email: "alvin443@yahoo.com", role: "member", name: "Dr Alvin Silva" },
+  { email: "drswanson@nnwc.ca", role: "member", name: "Dr Vanessa Swanson" },
+  { email: "bron.finkelstein@gmail.com", role: "member", name: "Dr Bron Finkelstein" },
+  { email: "Landon.sayler@dal.ca", role: "chief_of_staff", name: "Dr Landon Bryce Sayler" },
+  { email: "rafalbanas7@gmail.com", role: "executive", name: "Dr Rafal Banas" },
+  { email: "odunalakaye@gmail.com", role: "executive", name: "Dr Johnson Alakaye" },
+  { email: "onums82@gmail.com", role: "member", name: "Dr Chikezie Ononiwu" },
   { email: "michaelkelgin@gmail.com", role: "executive", name: "Dr Michael Haldorson" },
-  { email: "yonabeth77@gmail.com", role: "member" },
+  { email: "yonabeth77@gmail.com", role: "member", name: "Dr Yonabeth Nava De Escalante" },
   { email: "kassie2mayol@gmail.com", role: "coordinator", name: "Kassandra Mayol" },
 ];
 
